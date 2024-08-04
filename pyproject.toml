@@ -1,21 +1,19 @@
 [tool.poetry]
-name = "pdf-classifier"
+name = "pdf-ppt-classifier"
 version = "0.1.0"
 description = ""
-authors = ["-"]
+authors = ["Aaron Wan <baronhw808@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.12"
+pandas = "^2.2.2"
+scikit-learn = "^1.5.1"
+pymupdf = "^1.24.9"
+pillow = "^10.4.0"
+numpy = "^2.0.1"
 
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
-
-[tool.poetry.group.dev.dependencies]
-ipykernel = "^6.29.3"
-pylint = "^3.2.0"
-black = "^24.4.2"
-pytest = "^8.2.1"
-pyright = "^1.1.365"
