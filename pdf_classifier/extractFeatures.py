@@ -27,7 +27,7 @@ def extractRGBFeatures(document_path: str) -> Tuple[float, float, float]:
 
         if valid_pages > 0:
             avg_rgb = (total_rgb / valid_pages) / 255
-            return tuple(np.clip(avg_rgb, 0, 1))  # Ensure values are between 0 and 1
+            return tuple(np.clip(avg_rgb, 0, 1)) #make sure between 0 and 1
         else:
             print(f"No valid pages found in {document_path}")
             return (np.nan, np.nan, np.nan)

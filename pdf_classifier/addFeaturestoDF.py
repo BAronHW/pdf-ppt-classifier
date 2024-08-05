@@ -4,11 +4,16 @@ import extractFeatures as ef
 from typing import Tuple
 import numpy as np
 from PIL import Image
-import pymupdf  # PyMuPDF
+# import pymupdf  # PyMuPDF
 import extractFeatures
+import os
 
 def addFeaturestoDF():
-    train_data, test_data = ds.dataSplit()
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    project_dir = os.path.dirname(current_dir)
+    documents_path = os.path.join(project_dir, "data", "documents")
+    powerpoints_path = os.path.join(project_dir, "data", "powerpoints")
+    train_data, test_data = ds.dataSplit(documents_path, powerpoints_path)
 
     def process_df(df: pd.DataFrame, data_type: str) -> pd.DataFrame:
         rgb_features = []
@@ -22,9 +27,9 @@ def addFeaturestoDF():
 
         result_df = pd.concat([df.reset_index(drop=True), features_df], axis=1)
 
-        print(f"{data_type} data with features:")
-        print(result_df.head())
-        print(result_df.info())
+        # print(f"{data_type} data with features:")
+        # print(result_df.head())
+        # print(result_df.info())
 
         return result_df
 

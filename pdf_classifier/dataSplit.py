@@ -3,9 +3,7 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from typing import Tuple
 
-def dataSplit() -> Tuple[pd.DataFrame, pd.DataFrame]:
-    pdf_path = r"C:\Users\Aaron\OneDrive - Lancaster University\Documents\my projects\pdf-ppt-classifier\data\documents"
-    ppt_path = r"C:\Users\Aaron\OneDrive - Lancaster University\Documents\my projects\pdf-ppt-classifier\data\powerpoints"
+def dataSplit(pdf_path: str, ppt_path: str) -> Tuple[pd.DataFrame, pd.DataFrame]:
 
     files: list[str] = []
     labels: list[str] = []
