@@ -8,6 +8,7 @@ import model
 
 def classify_pdf(file_path, model, scaler, label_encoder) -> str:
     try:
+        print("Now running on single document")
         rgb_features = extractRGBFeatures(file_path)
         edge_features = extractEdges(file_path)
         

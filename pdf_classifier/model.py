@@ -8,6 +8,7 @@ import seaborn as sns
 import numpy as np
 
 def model():
+    print("Now training model")
     train_data_with_features, test_data_with_features = addFeaturestoDF.addFeaturestoDF()
 
     X_train = train_data_with_features.drop(columns=['labels', 'file_path'])

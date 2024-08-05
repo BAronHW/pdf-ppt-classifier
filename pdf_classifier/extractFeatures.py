@@ -6,6 +6,7 @@ from typing import Tuple
 
 def extractRGBFeatures(document_path: str) -> Tuple[float, float, float]:
     try:
+        print("now extracting features")
         pdf = pymupdf.open(document_path)
         pdfpagenum = max(1, pdf.page_count)
         total_rgb = np.array([0.0, 0.0, 0.0])
@@ -22,7 +23,7 @@ def extractRGBFeatures(document_path: str) -> Tuple[float, float, float]:
                     if not np.isnan(avg_rgb).any() and not np.isinf(avg_rgb).any():
                         total_rgb += avg_rgb
                         valid_pages += 1
-            except Exception as e:
+            except pymupdf.FileDataError as e:
                 print(f"Error processing page {page_num} in {document_path}")
                 continue
 

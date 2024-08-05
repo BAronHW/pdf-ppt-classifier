@@ -5,6 +5,7 @@ from typing import Tuple
 
 def dataSplit(pdf_path: str, ppt_path: str) -> Tuple[pd.DataFrame, pd.DataFrame]:
 
+    print("Now splitting data")
     files: list[str] = []
     labels: list[str] = []
 

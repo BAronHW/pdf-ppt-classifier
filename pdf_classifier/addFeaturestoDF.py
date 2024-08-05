@@ -30,9 +30,9 @@ def addFeaturestoDF():
         features_df = pd.concat([rgb_df, edge_df], axis=1)
         result_df = pd.concat([df.reset_index(drop=True), features_df], axis=1)
         
-        print(f"{data_type} data with features:")
-        print(result_df.head())
-        print(result_df.info())
+        # print(f"{data_type} data with features:")
+        # print(result_df.head())
+        # print(result_df.info())
         
         return result_df
     
