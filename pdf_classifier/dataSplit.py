@@ -3,8 +3,6 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from typing import Tuple
 
-# this module creates the training and testing data split
-
 def dataSplit() -> Tuple[pd.DataFrame, pd.DataFrame]:
     pdf_path = r"C:\Users\Aaron\OneDrive - Lancaster University\Documents\my projects\pdf-ppt-classifier\data\documents"
     ppt_path = r"C:\Users\Aaron\OneDrive - Lancaster University\Documents\my projects\pdf-ppt-classifier\data\powerpoints"
@@ -25,9 +23,6 @@ def dataSplit() -> Tuple[pd.DataFrame, pd.DataFrame]:
         'labels': labels
     })
 
-    train_data, test_data = train_test_split(data, test_size=0.2, train_size=0.8, stratify=data['labels'], random_state=42)
-
-    print("Training data:", train_data.head())
-    print("Test data:", test_data.head())
+    train_data, test_data = train_test_split(data, test_size=0.2, stratify=data['labels'], random_state=42)
 
     return train_data, test_data

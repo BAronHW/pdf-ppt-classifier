@@ -1,48 +1,65 @@
-import os
 import numpy as np
-import pymupdf
 from PIL import Image
+import pymupdf
 from typing import Tuple
 
-# """" This module extracts the features of a single page and the idea is to be able to extract the average RGB values of all documents and pdf's as well as their word-counts to act as features for the machine learning model to learn from """"
+def extractRGBFeatures(document_path: str) -> Tuple[float, float, float]:
+    try:
+        pdf = pymupdf.open(document_path)
+        pdfpagenum = max(1, pdf.page_count)
+        total_rgb = np.array([0.0, 0.0, 0.0])
+        valid_pages = 0
 
-def extractRGBFeatures(document_path) -> Tuple[float, float, float]:
+        for page_num in range(pdfpagenum):
+            try:
+                page = pdf.load_page(page_num)
+                pix = page.get_pixmap()
+                img = Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
+                img_array = np.array(img)
+                if img_array.size > 0:
+                    avg_rgb = img_array.mean(axis=(0,1))
+                    if not np.isnan(avg_rgb).any() and not np.isinf(avg_rgb).any():
+                        total_rgb += avg_rgb
+                        valid_pages += 1
+            except Exception as e:
+                print(f"Error processing page {page_num} in {document_path}")
+                continue
 
-    pdf = pymupdf.open(document_path) 
-    pdfpagenum = (pdf.page_count - 1)
-    total_rgb = np.array([0.0, 0.0, 0.0])
-    for page_num in range(pdfpagenum):
-        page = pdf.load_page(page_num)
-        pix = page.get_pixmap()
-        img = Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
-        img_array = np.array(img)
+        if valid_pages > 0:
+            avg_rgb = (total_rgb / valid_pages) / 255
+            return tuple(np.clip(avg_rgb, 0, 1))  # Ensure values are between 0 and 1
+        else:
+            print(f"No valid pages found in {document_path}")
+            return (np.nan, np.nan, np.nan)
 
-        avg_rgb = img_array.mean(axis=(0,1))
-        total_rgb += avg_rgb
-    
-    avg_rgb = total_rgb / pdfpagenum
+    except Exception as e:
+        print(f"Error in extractRGBFeatures for {document_path}: {str(e)}")
+        return (np.nan, np.nan, np.nan)
 
-    return avg_rgb
+# def extractWordCount(document_path: str) -> float:
+#     try:
+#         pdf = pymupdf.open(document_path)
+#         pdfpagenum = max(1, pdf.page_count)
+#         totalwords = 0
+#         valid_pages = 0
 
-def extractWordCount(document_path) -> int:
+#         for page in pdf:
+#             try:
+#                 text = page.get_text()
+#                 words = text.split()
+#                 totalwords += len(words)
+#                 valid_pages += 1
+#             except Exception as e:
+#                 print(f"Error processing page for word count in {document_path}: {str(e)}")
+#                 continue
 
-    pdf = pymupdf.open(document_path)
-    pdfpagenum = (pdf.page_count - 1)
-    totalwords = 0
-    for page in pdf:
-        text = page.get_text().encode("utf-8")
-        textlen = len(text)
-        totalwords += textlen
-    
-    if totalwords == 0:
-        return 0
-    meanwords = totalwords/pdfpagenum
-        
-    return meanwords
+#         if valid_pages > 0:
+#             meanwords = totalwords / valid_pages
+#             return float(meanwords)
+#         else:
+#             print(f"No valid pages found for word count in {document_path}")
+#             return np.nan
 
-
-examplepdf = r"C:\Users\Aaron\OneDrive - Lancaster University\Documents\my projects\pdf-ppt-classifier\data\documents\0wlz9DKaxwQIPqkAU1BicYG7XHbPxy.pdf"
-exampleppt = r"C:\Users\Aaron\OneDrive - Lancaster University\Documents\my projects\pdf-ppt-classifier\data\powerpoints\1VYDQOEhrEkqg4c3IayMEDaEvg46Lc.pdf"
-
-print(extractWordCount(examplepdf))
-print(extractRGBFeatures(examplepdf))
+#     except Exception as e:
+#         print(f"Error in extractWordCount for {document_path}: {str(e)}")
+#         return np.nan
