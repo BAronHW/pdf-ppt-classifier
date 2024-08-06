@@ -44,7 +44,7 @@ def extractEdges(document_path: str) -> Tuple[float, float]:
     # loop through the document
     # for every page turn the page into a pixmap then from a pixmap to an img 
     # apply a gaussian filter to the image to remove noise
-    # apply canny edge detector and then find the ratio of edges to non edges and the average edge intencity 
+    # apply canny edge detector and then find the ratio of edges to non edges and the average edge intencity
     try:
         pdf = pymupdf.open(document_path) 
         pdfpagenum = max(1, pdf.page_count)
