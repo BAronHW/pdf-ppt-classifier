@@ -6,10 +6,14 @@ from sklearn.metrics import classification_report, confusion_matrix
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
+import pandas as pd
 
 def model():
     print("Now training model")
-    train_data_with_features, test_data_with_features = addFeaturestoDF.addFeaturestoDF()
+    # train_data_with_features, test_data_with_features = addFeaturestoDF.addFeaturestoDF()
+
+    train_data_with_features = pd.read_csv('traindata.csv')
+    test_data_with_features = pd.read_csv('testdata.csv')
 
     X_train = train_data_with_features.drop(columns=['labels', 'file_path'])
     y_train = train_data_with_features['labels']
